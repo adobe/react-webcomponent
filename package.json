@@ -1,0 +1,45 @@
+{
+  "name": "@adobe/react-webcomponent",
+  "version": "0.1.0",
+  "author": "Adobe",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "webpack --mode production",
+    "test": "npm run karma -- --single-run",
+    "karma": "node_modules/karma/bin/karma start",
+    "prepublish": "npm run test && npm run build"
+  },
+  "files": [
+    "dist/index.js"
+  ],
+  "main": "dist/index.js",
+  "peerDependencies": {
+    "react": ">=14.2.0",
+    "react-dom": ">=14.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-decorators": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.0",
+    "chai": "^4.1.0",
+    "html-loader": "^0.5.5",
+    "karma": "^2.0.0",
+    "karma-chai-sinon": "^0.1.5",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.1",
+    "karma-junit-reporter": "^1.2.0",
+    "karma-mocha": "^1.3.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^4.0.0-beta.0",
+    "mocha": "^4.0.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "sinon": "^4.0.0",
+    "sinon-chai": "^2.14.0",
+    "webpack": "^4.20.0",
+    "webpack-cli": "^3.1.1"
+  }
+}
