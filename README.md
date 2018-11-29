@@ -129,6 +129,7 @@ This utility is reponsible from converting a DOM node to a model. The model is d
 * [byBooleanAttrVal](#bybooleanattrval)
 * [byJsonAttrVal](#byjsonattrval)
 * [byContentVal](#bycontentval)
+* [byContent](#bycontent)
 * [byChildContentVal](#bychildcontentval)
 * [byChildRef](#bychildref)
 * [byModel](#bymodel)
@@ -216,6 +217,44 @@ const model = new Model().fromDOM(document.getElementById("elem"));
 model ~ {
     label: "My Label"
 }
+```
+
+#### byContent
+This decorator allows you to capture the contents of a child of the element that is matched.
+by a CSS selector. The can be used to reparent arbitrary child DOM content, which may not
+have been rendered with React, into your web component. Once parsing has occurred, the field
+in the model will contain a React component that represents the DOM content that will be
+reparented.
+
+The DOM content will be moved when the React component is mounted. And, the content
+will be put back in its original location if the React component is later unmounted.
+```js
+@byContent(attrName:selector) - the CSS selector that will match the child node.
+```
+```js
+class Model extends DOMModel {
+    @byContent('.content') content;
+}
+<div id="elem">
+    <div class="content">
+        This will be reparented
+    </div>
+</div>
+<div id="mount-point"/>
+
+const model = new Model().fromDOM(document.getElementById("elem"));
+ReactDOM.render(<div>{ model.content }</div>, document.getElementById("mount-point"))
+
+// Once React has rendered the above component, the DOM will look like this
+
+<div id="elem">
+    <!-- placeholder for DIV -->
+</div>
+<div id="mount-point">
+    <div class="content">
+        This will be reparented
+    </div>
+</div>
 ```
 
 #### byChildContentVal
