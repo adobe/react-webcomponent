@@ -365,7 +365,7 @@ describe("DOMModel", () => {
             model = result.model;
         });
 
-        it("parses the model", (done) => {
+        it("reparents captured content", (done) => {
             let mountPoint = element.querySelector('#mount-point');
             element = element.firstElementChild;
 
