@@ -183,6 +183,20 @@ describe("DOMModel", () => {
             option.setAttribute("value", "optionNew");
         });
 
+        it("updates the value when content changes", (done) => {
+            let option = element.querySelector(`option[value="option2"]`);
+            expect(option).to.exist;
+            element.addEventListener("_updateModel", (event) => {
+                let newValue = event.detail[0].value;
+                expect(newValue).to.exist;
+                expect(newValue).to.be.an('array');
+                expect(newValue).to.have.lengthOf(4);
+                expect(newValue[1].text).to.equal("Changed Option Label");
+                done();
+            });
+            option.innerText = 'Changed Option Label';
+        });
+
         it("updates when removing item", (done) => {
             let option = element.querySelector(`option[value="option2"]`);
             expect(option).to.exist;
