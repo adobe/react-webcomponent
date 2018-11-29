@@ -18,6 +18,7 @@ import { DOMModel, byJsonAttrVal, byAttrVal, byBooleanAttrVal,
 } from "../../index";
 import JSONSnippet from "./snippets/json-model.html";
 import { byModel, byContentVal, byContent, byChildrenTypeArray, byChildModelVal } from "../../lib/dom-model/DOMDecorators";
+import React from "react";
 import ReactDOM from "react-dom";
 
 describe("DOMModel", () => {
@@ -377,17 +378,35 @@ describe("DOMModel", () => {
             expect(model.items).to.have.lengthOf(2);
 
             expect(model.content).to.exist;
-            ReactDOM.render(model.content, mountPoint, () => {
-                let child = mountPoint.firstElementChild;
-                expect(child).to.exist;
-                expect(child.tagName).to.equal('SECTION');
-                let p = child.firstElementChild;
+            let component = <div>{ model.content }</div>
+            ReactDOM.render(component, mountPoint, () => {
+                let div = mountPoint.firstElementChild;
+                let section = div.firstElementChild;
+                expect(section).to.exist;
+                expect(section.tagName).to.equal('SECTION');
+                let p = section.firstElementChild;
                 expect(p).to.exist;
                 expect(p.tagName).to.equal('P');
                 expect(p.innerText).to.equal('my content');
 
                 ReactDOM.unmountComponentAtNode(mountPoint);
-                done();
+
+                setTimeout(() => {
+                    expect(mountPoint.firstElementChild).to.be.null;
+
+                    let component = element.querySelector('component');
+                    let section = element.querySelector('section');
+
+                    // Make sure that the content has been put back
+                    expect(section).to.exist;
+                    expect(section.tagName).to.equal('SECTION');
+                    let p = section.firstElementChild;
+                    expect(p).to.exist;
+                    expect(p.tagName).to.equal('P');
+                    expect(p.innerText).to.equal('my content');
+    
+                    done();
+                }, 1)
             })
         })
     });
