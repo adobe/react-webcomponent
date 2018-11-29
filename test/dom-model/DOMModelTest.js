@@ -17,7 +17,8 @@ import { DOMModel, byJsonAttrVal, byAttrVal, byBooleanAttrVal,
     byChildRef
 } from "../../index";
 import JSONSnippet from "./snippets/json-model.html";
-import { byModel, byContentVal, byChildrenTypeArray, byChildModelVal } from "../../lib/dom-model/DOMDecorators";
+import { byModel, byContentVal, byContent, byChildrenTypeArray, byChildModelVal } from "../../lib/dom-model/DOMDecorators";
+import ReactDOM from "react-dom";
 
 describe("DOMModel", () => {
     let element, model;
@@ -330,6 +331,64 @@ describe("DOMModel", () => {
             model.fromDOM(element);
             expect(model.child).to.exist;
             expect(model.child).to.deep.equal(childModel);
+        })
+    });
+
+    describe("byContent", () => {
+        let element, model;
+
+        class ComponentItemModel extends DOMModel {
+            @byContentVal() name;
+        }
+        
+        class ComponentModel extends DOMModel {
+            @byAttrVal() size;
+            @byChildrenRefArray('component-item', ComponentItemModel) items;
+            @byContent('section') content;
+        }
+        
+        beforeEach(() => {
+            let result = makeModel(ComponentModel, `
+                <div>
+                    <component size="L">
+                        <component-item>Item 1</component-item>
+                        <component-item>Item 2</component-item>
+                        <section>
+                            <p>my content</p>
+                        </section>
+                    </component>
+                    <div id='mount-point'></div>
+                </div>
+            `);
+            element = result.element;
+            model = result.model;
+        });
+
+        it("parses the model", (done) => {
+            let mountPoint = element.querySelector('#mount-point');
+            element = element.firstElementChild;
+
+            model.fromDOM(element);
+
+            // Make sure that the rest of the model is there
+            expect(model.size).to.equal('L');
+            expect(model.items).to.exist;
+            expect(model.items).to.be.an('array');
+            expect(model.items).to.have.lengthOf(2);
+
+            expect(model.content).to.exist;
+            ReactDOM.render(model.content, mountPoint, () => {
+                let child = mountPoint.firstElementChild;
+                expect(child).to.exist;
+                expect(child.tagName).to.equal('SECTION');
+                let p = child.firstElementChild;
+                expect(p).to.exist;
+                expect(p.tagName).to.equal('P');
+                expect(p.innerText).to.equal('my content');
+
+                ReactDOM.unmountComponentAtNode(mountPoint);
+                done();
+            })
         })
     });
 });
