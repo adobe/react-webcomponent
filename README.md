@@ -220,11 +220,11 @@ model ~ {
 ```
 
 #### byContent
-This decorator allows you to capture the contents of a child of the element that is matched.
-by a CSS selector. The can be used to reparent arbitrary child DOM content, which may not
-have been rendered with React, into your web component. Once parsing has occurred, the field
-in the model will contain a React component that represents the DOM content that will be
-reparented.
+This decorator allows you to capture a DOM node that is matched by a CSS selector.
+This can be used to reparent arbitrary child DOM content, which may not have been
+rendered with React, into your web component. Once parsing has occurred, the field
+in the model will contain a React component that represents the DOM content that
+will be reparented.
 
 The DOM content will be moved when the React component is mounted. And, the content
 will be put back in its original location if the React component is later unmounted.
