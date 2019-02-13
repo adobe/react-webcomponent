@@ -111,4 +111,25 @@ describe("WebComponent", () => {
             });
         });
     });
+
+    it("should clean up when unmounted", () => {
+        customElements.whenDefined('custom-component').then(() => {
+			expect(element.querySelector('div')).to.be.null;
+
+			// CustomElement should create a container div
+			document.body.appendChild(element);
+			expect(element.querySelector('div')).to.exist;
+
+			// CustomElement clean up the container div
+			document.body.removeChild(element);
+			expect(element.querySelector('div')).to.be.null;
+
+			// Make sure that remounting it works
+			document.body.appendChild(element);
+			expect(element.querySelector('div')).to.exist;
+
+			document.body.removeChild(element);
+			expect(element.querySelector('div')).to.be.null;
+        });
+    });
 });
