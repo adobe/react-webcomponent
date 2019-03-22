@@ -350,39 +350,38 @@ describe("DOMModel", () => {
     });
 
     describe("byContentVal", () => {
-
         class ButtonModel extends DOMModel {
             @byAttrVal() variant;
             @byContentVal() label;
-		}
-		
+        }
+
         beforeEach(() => {
             let result = makeModel(ButtonModel, `
                 <my-button variant='action'>Push Me</my-button>
             `);
             element = result.element;
             model = result.model;
-		});
-		
-		it("parses the model", () => {
+        });
+
+        it("parses the model", () => {
             expect(model.variant).to.equal('action');
             expect(model.label).to.equal('Push Me');
-		});
-		
-		it("updates when the DOM changes", (done) => {
+        });
+
+        it("updates when the DOM changes", (done) => {
             expect(model.variant).to.equal('action');
-			expect(model.label).to.equal('Push Me');
-			
+            expect(model.label).to.equal('Push Me');
+
             element.addEventListener("_updateModel", (event) => {
-				let change = event.detail[0];
-				expect(change.propertyName).to.equal('label');
-				expect(change.value).to.equal('New Label');
+                let change = event.detail[0];
+                expect(change.propertyName).to.equal('label');
+                expect(change.value).to.equal('New Label');
                 done();
-			});
-			
-			element.innerHTML = 'New Label';
-		});
-	});
+            });
+
+            element.innerHTML = 'New Label';
+        });
+    });
 
     describe("byContent", () => {
         let element, model;
