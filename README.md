@@ -179,7 +179,7 @@ Usage:
 const model = new Model().fromDOM(document.getElementById("elem"));
 model ~ {
     checked: true,
-    required: undefined
+    required: false
 }
 <div id="elem" checked is-required/>
 model.fromDOM(document.getElementById("elem"));
