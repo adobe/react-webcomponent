@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 import { expect, assert } from "chai";
 
-import { DOMModel, byJsonAttrVal, byAttrVal, byBooleanAttrVal,
+import { DOMModel, byJsonAttrVal, byAttrVal, byExistAttrVal,
     byChildContentVal, byChildrenRefArray, registerEvent,
     byChildRef
 } from "../../index";
@@ -39,7 +39,7 @@ describe("DOMModel", () => {
     class JSONModel extends DOMModel {
         @byJsonAttrVal("j-attr") jAttr;
         @byAttrVal weight;
-        @byBooleanAttrVal required;
+        @byExistAttrVal required;
         @byChildContentVal("child-value") value;
         @registerEvent change;
     }
@@ -62,7 +62,7 @@ describe("DOMModel", () => {
         });
     });
 
-    describe("byBooleanVal", () => {
+    describe("byExistAttrVal", () => {
         it("parses the value correctly", () => {
             let { model, element } = makeModel(JSONModel, JSONSnippet);
             expect(model.required).to.equal(true);
@@ -245,7 +245,7 @@ describe("DOMModel", () => {
         }
 
         class ChildType2 extends DOMModel {
-            @byBooleanAttrVal() selected;
+            @byExistAttrVal() selected;
         }
 
         class ParentModel extends DOMModel {
@@ -253,7 +253,7 @@ describe("DOMModel", () => {
                 "child-one": ChildType1,
                 "child-two": ChildType2
             }) items;
-            @byBooleanAttrVal() disabled;
+            @byExistAttrVal() disabled;
         }
 
         beforeEach(() => {

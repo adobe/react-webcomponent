@@ -126,7 +126,7 @@ window.customElements.define("test-button", ButtonCustomElement);
 ### DOMModel
 This utility is reponsible from converting a DOM node to a model. The model is decorated with a series of specialize decorators. Each decorator will parse the dom and construct the model:
 * [byAttrVal](#byattrval)
-* [byBooleanAttrVal](#bybooleanattrval)
+* [byExistAttrVal](#byexistattrval)
 * [byJsonAttrVal](#byjsonattrval)
 * [byContentVal](#bycontentval)
 * [byContent](#bycontent)
@@ -160,17 +160,17 @@ model ~ {
 }
 ```
 
-#### byBooleanAttrVal  
+#### byExistAttrVal  
 
 Parses the element and sets the value corresponding to the presence of the attribute on the element.  
 The value of the attribute is ignored, only the presence of the attribute determines the value
 ```js
-@byBooleanAttrVal(attrName:string) - defaults to the name of the property it decorates
+@byExistAttrVal(attrName:string) - defaults to the name of the property it decorates
 ```
 ```js
 class Model extends DOMModel {
-    @byBooleanAttrVal() checked;
-    @byBooleanAttrVal("is-required") required;
+    @byExistAttrVal() checked;
+    @byExistAttrVal("is-required") required;
 }
 ```
 Usage:
@@ -351,7 +351,7 @@ All the resulting array of values is stored as the value on the decorated proper
 class OptionModel extends DOMModel {
     @byContentVal() content;
     @byAttrVal() value;
-    @byBooleanAttrVal() selected;
+    @byExistAttrVal() selected;
 }
 
 class SelectModel extends DOMModel {
