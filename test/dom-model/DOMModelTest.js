@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 import { expect, assert } from "chai";
 
-import { DOMModel, byJsonAttrVal, byAttrVal, byExistAttrVal,
+import { DOMModel, byJsonAttrVal, byAttrVal, byExistAttrVal, byBooleanAttrVal,
     byChildContentVal, byChildrenRefArray, registerEvent,
     byChildRef
 } from "../../index";
@@ -40,6 +40,7 @@ describe("DOMModel", () => {
         @byJsonAttrVal("j-attr") jAttr;
         @byAttrVal weight;
         @byExistAttrVal required;
+        @byBooleanAttrVal("close-on-select") closeOnSelect;
         @byChildContentVal("child-value") value;
         @registerEvent change;
     }
@@ -69,6 +70,25 @@ describe("DOMModel", () => {
             element.removeAttribute("required");
             model.fromDOM(element);
             expect(model.required).to.equal(false);
+        });
+    });
+
+    describe("byBooleanAttrVal", () => {
+        it("parses the value correctly", () => {
+            let { model, element } = makeModel(JSONModel, JSONSnippet);
+            expect(model.closeOnSelect).to.equal(undefined);
+            element.removeAttribute("close-on-select");
+            model.fromDOM(element);
+            expect(model.closeOnSelect).to.equal(undefined);
+            element.setAttribute("close-on-select", "true");
+            model.fromDOM(element);
+            expect(model.closeOnSelect).to.equal(true);
+            element.setAttribute("close-on-select", "false");
+            model.fromDOM(element);
+            expect(model.closeOnSelect).to.equal(false);
+            element.setAttribute("close-on-select", "random");
+            model.fromDOM(element);
+            expect(model.closeOnSelect).to.equal(undefined);
         });
     });
 

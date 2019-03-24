@@ -127,6 +127,7 @@ window.customElements.define("test-button", ButtonCustomElement);
 This utility is reponsible from converting a DOM node to a model. The model is decorated with a series of specialize decorators. Each decorator will parse the dom and construct the model:
 * [byAttrVal](#byattrval)
 * [byExistAttrVal](#byexistattrval)
+* [byBooleanAttrVal](#bybooleanattrval)
 * [byJsonAttrVal](#byjsonattrval)
 * [byContentVal](#bycontentval)
 * [byContent](#bycontent)
@@ -186,6 +187,41 @@ model.fromDOM(document.getElementById("elem"));
 model ~ {
     checked: true,
     required: true
+}
+```
+
+#### byBooleanAttrVal  
+
+Parses the element and sets the value based on string value `true` or `false`, and `undefined` otherwise.
+```js
+@byBooleanAttrVal(attrName:string) - defaults to the name of the property it decorates
+```
+```js
+class Model extends DOMModel {
+    @byExistAttrVal() checked;
+}
+```
+Usage:
+```js
+<div id="elem" checked="true"/>
+model.fromDOM(document.getElementById("elem"));
+model ~ {
+    checked: true
+}
+<div id="elem" checked="false"/>
+model.fromDOM(document.getElementById("elem"));
+model ~ {
+    checked: false
+}
+<div id="elem" checked/>
+const model = new Model().fromDOM(document.getElementById("elem"));
+model ~ {
+    checked: undefined
+}
+<div id="elem" checked="anything else"/>
+model.fromDOM(document.getElementById("elem"));
+model ~ {
+    checked: undefined
 }
 ```
 
