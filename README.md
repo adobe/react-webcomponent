@@ -33,7 +33,7 @@ Include the [custom-elements-es5-adapter](https://github.com/webcomponents/webco
 
 Is you are using Babel 7: the issues is fixed so you shouldn't need anything else.
 
-We are using class properties and decorators so make sure you include the appropiat babel plugins to use this.  
+We are using class properties and decorators so make sure you include the appropriate babel plugins to use this.  
 
 ### Defining a Custom Element
 The first thing which is need is a React Component to expose as a Custom Element
