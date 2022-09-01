@@ -9,6 +9,10 @@
     "karma": "node_modules/karma/bin/karma start",
     "prepublish": "npm run test && npm run build"
   },
+    "repository": {	
+        "type": "git",
+        "url": "https://github.com/adobe/react-webcomponent.git"
+    },
   "files": [
     "dist/index.js"
   ],
